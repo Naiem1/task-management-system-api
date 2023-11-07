@@ -16,16 +16,16 @@ app.use(express.json());
 
 app.post('/api/v1/auth/register', registerController);
 
-app.use((error, req, res, next) => {
-  console.log(error, req.e);
-  console.log("==================================")
-})
+// app.use((error, req, res, next) => {
+//   console.log(error, req.e);
+//   console.log("==================================")
+// })
 
 
-app.use((error, _req, res) => {
+app.use((error, _req, res, _next) => {
   const message = error.message ? error.message : 'Server Error Occurred';
   const status = error.status ? error.status : 500;
-  console.log('global>>---------------', error);
+  // console.log('global>>---------------', error);
   
   res.status(status).json({
     message
