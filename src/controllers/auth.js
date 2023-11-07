@@ -1,6 +1,7 @@
 const { registerService, loginService } = require('../../services/auth');
 const User = require('../models/User');
 const error = require('../utils/error');
+const jwt = require('jsonwebtoken');
 
 const registerController = async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -10,6 +11,7 @@ const registerController = async (req, res, next) => {
 
   try {
     const access_token = await registerService({ name, email, password });
+
     return res
       .status(201)
       .json({ message: 'User Created Successfully', access_token });
