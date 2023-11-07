@@ -1,4 +1,4 @@
-const { registerService } = require('../../services/auth');
+const { registerService, loginService } = require('../../services/auth');
 const User = require('../models/User');
 const error = require('../utils/error');
 
@@ -18,6 +18,22 @@ const registerController = async (req, res, next) => {
   }
 };
 
+const loginController = async (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    res.status(400).json({ message: 'Invalid input' });
+  }
+  try {
+    const access_token = await loginService({ email, password });
+    console.log(access_token);
+
+    res.status(200).json({ message: 'Login Successful', access_token });
+  } catch (err) {
+    next(error);
+  }
+};
+
 module.exports = {
   registerController,
+  loginController,
 };

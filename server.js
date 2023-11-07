@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./src/db/db');
 const routes = require('./src/routes');
-const { registerController, signupController } = require('./src/controllers/auth');
+const { registerController, signupController, loginController } = require('./src/controllers/auth');
 const error = require('./src/utils/error');
 const User = require('./src/models/User');
 const bcrypt = require('bcryptjs');
@@ -15,14 +15,12 @@ app.use(express.json());
 // app.use(routes);
 
 app.post('/api/v1/auth/register', registerController);
+app.post('/api/v1/auth/login', loginController);
 
-// app.use((error, req, res, next) => {
-//   console.log(error, req.e);
-//   console.log("==================================")
-// })
 
 
 app.use((error, _req, res, _next) => {
+  // console.log('global-error>>', error);
   const message = error.message ? error.message : 'Server Error Occurred';
   const status = error.status ? error.status : 500;
   // console.log('global>>---------------', error);

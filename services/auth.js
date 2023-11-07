@@ -12,11 +12,27 @@ const registerService = async ({ name, email, password }) => {
     email,
     password: hashedPassword,
   });
-  
-  return newUser.save()
+
+  return newUser.save();
 };
 
+const loginService = async ({ email, password }) => {
+  const user = await User.findOne({email});
+  if (!user) throw Error('Invalid Credential', 400);
+
+  const isPasswordMatch = await bcrypt.compare(password, user.password);
+  if (!isPasswordMatch) throw error('Invalid Credential', 400);
+
+  const payload = {
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+
+  };
+  return payload;
+};
 
 module.exports = {
   registerService,
+  loginService,
 };
