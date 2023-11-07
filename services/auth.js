@@ -1,17 +1,19 @@
 const User = require('../src/models/User');
 const bcrypt = require('bcryptjs');
+const error = require('../src/utils/error');
 
 const registerService = async ({ name, email, password }) => {
-  let user = await User.find({ email });
+  const user = await User.findOne({ email });
   if (user) throw Error('User Already exist', 400);
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
-  user = new User({
+  let newUser = new User({
     name,
     email,
     password: hashedPassword,
   });
-  return user.save()
+  
+  return newUser.save()
 };
 
 
