@@ -17,13 +17,9 @@ app.use(express.json());
 app.post('/api/v1/auth/register', registerController);
 app.post('/api/v1/auth/login', loginController);
 
-// app.use((error, req, res, next) => {
-//   console.log(error, req.e);
-//   console.log("==================================")
-// })
 
 
-app.use((error, _req, res) => {
+app.use((error, _req, res, _next) => {
   // console.log('global-error>>', error);
   const message = error.message ? error.message : 'Server Error Occurred';
   const status = error.status ? error.status : 500;
